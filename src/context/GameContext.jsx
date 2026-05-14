@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useMemo } from 'react';
 import * as storage from '../utils/storage';
 import {
   DEFAULT_QUESTS,
@@ -246,15 +246,21 @@ export function GameProvider({ children }) {
   }, []);
 
   const today = getTodayStr();
-  const todayCompletions = state.completionLog.filter(e => e.date === today);
-  const stats = buildStats(
-    state.completionLog,
-    state.totalXp,
-    state.levelInfo.level,
-    state.streakInfo
-  );
 
-  const value = {
+  const todayCompletions = useMemo(() => {
+    return state.completionLog.filter(e => e.date === today);
+  }, [state.completionLog, today]);
+
+  const stats = useMemo(() => {
+    return buildStats(
+      state.completionLog,
+      state.totalXp,
+      state.levelInfo.level,
+      state.streakInfo
+    );
+  }, [state.completionLog, state.totalXp, state.levelInfo.level, state.streakInfo]);
+
+  const value = useMemo(() => ({
     ...state,
     stats,
     todayCompletions,
@@ -264,7 +270,17 @@ export function GameProvider({ children }) {
     updateQuest,
     deleteQuest,
     dismissLevelUp,
-  };
+  }), [
+    state,
+    stats,
+    todayCompletions,
+    completeQuest,
+    uncompleteQuest,
+    addQuest,
+    updateQuest,
+    deleteQuest,
+    dismissLevelUp
+  ]);
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }
