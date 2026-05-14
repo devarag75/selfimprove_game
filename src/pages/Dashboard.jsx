@@ -20,44 +20,38 @@ export default function Dashboard() {
   const today = getTodayStr();
   const completedQuestIds = todayCompletions.map(c => c.questId);
   const progress = (levelInfo.currentXp / levelInfo.xpForNext) * 100;
+  const rankTitle =
+    levelInfo.level >= 10 ? 'Legend' :
+    levelInfo.level >= 5 ? 'Rising Hero' :
+    levelInfo.level >= 3 ? 'Focused Adventurer' :
+    'New Adventurer';
 
   return (
-    <div className="pb-6 space-y-5 stagger-children">
+    <div className="page-stack stagger-children">
       {/* ── Level Card ── */}
-      <div className="glass-card p-5 relative overflow-hidden">
-        {/* Decorative glow */}
-        <div
-          className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-20 blur-3xl"
-          style={{ background: 'linear-gradient(135deg, #a855f7, #3b82f6)' }}
-        />
-
+      <div className="glass-card level-card relative overflow-hidden">
         <div className="relative z-10">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-              Your Level
-            </span>
-            <div className="flex items-center gap-1.5">
-              <Flame size={14} className="text-amber-400" />
-              <span className="text-sm font-semibold text-amber-400">
-                {streakInfo.current} day streak
-              </span>
+          <div className="level-hero">
+            <div className="level-orb">
+              <span>LVL</span>
+              <strong>{levelInfo.level}</strong>
             </div>
-          </div>
 
-          <div className="flex items-end gap-3 mb-4">
-            <h1
-              className="font-game text-5xl font-black leading-none"
-              style={{
-                background: 'linear-gradient(135deg, #a855f7, #3b82f6, #06b6d4)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              {levelInfo.level}
-            </h1>
-            <div className="pb-1">
-              <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                {levelInfo.currentXp} / {levelInfo.xpForNext} XP
+            <div className="level-copy">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <span className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                    Hero Rank
+                  </span>
+                  <p className="font-bold">{rankTitle}</p>
+                </div>
+                <div className="streak-pill">
+                  <Flame size={14} />
+                  <span>{streakInfo.current} day</span>
+                </div>
+              </div>
+              <p className="level-xp">
+                {levelInfo.currentXp} / {levelInfo.xpForNext} XP to Level {levelInfo.level + 1}
               </p>
             </div>
           </div>
@@ -81,18 +75,18 @@ export default function Dashboard() {
       </div>
 
       {/* ── Quick Stats Row ── */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="glass-card p-3 text-center">
+      <div className="dashboard-metrics">
+        <div className="glass-card metric-card">
           <Target size={18} className="mx-auto mb-1 text-purple-400" />
           <p className="text-lg font-bold">{todayCompletions.length}</p>
           <p className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Today</p>
         </div>
-        <div className="glass-card p-3 text-center">
+        <div className="glass-card metric-card">
           <TrendingUp size={18} className="mx-auto mb-1 text-cyan-400" />
           <p className="text-lg font-bold">{stats.totalCompleted}</p>
           <p className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Total</p>
         </div>
-        <div className="glass-card p-3 text-center">
+        <div className="glass-card metric-card">
           <Trophy size={18} className="mx-auto mb-1 text-amber-400" />
           <p className="text-lg font-bold">{stats.daysActive}</p>
           <p className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Days Active</p>
@@ -101,8 +95,8 @@ export default function Dashboard() {
 
       {/* ── Today's Quests ── */}
       <div>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-bold flex items-center gap-2">
+        <div className="section-heading">
+          <h2 className="section-title">
             <Zap size={20} className="text-amber-400" />
             Today's Quests
           </h2>
@@ -205,7 +199,7 @@ export default function Dashboard() {
 function QuestCard({ quest, isCompleted, onToggle }) {
   return (
     <div
-      className={`glass-card-interactive p-4 flex items-center gap-3 transition-all duration-300 ${
+      className={`glass-card-interactive quest-list-card flex items-center gap-3 transition-all duration-300 ${
         isCompleted ? 'opacity-70' : ''
       }`}
       style={isCompleted ? { borderColor: 'rgba(16, 185, 129, 0.3)' } : {}}

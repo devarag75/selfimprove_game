@@ -10,8 +10,8 @@ export default function Achievements() {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
 
   return (
-    <div className="pb-6 space-y-4 stagger-children">
-      <h1 className="text-xl font-bold flex items-center gap-2">
+    <div className="page-stack stagger-children">
+      <h1 className="page-title">
         <Trophy size={22} className="text-amber-400" />
         Achievements
       </h1>
@@ -39,34 +39,33 @@ export default function Achievements() {
       </div>
 
       {/* Badge Grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="achievement-list">
         {ACHIEVEMENTS.map(a => {
           const isUnlocked = unlocked.includes(a.id);
           return (
             <div key={a.id}
-              className={`glass-card p-4 text-center transition-all duration-300 ${
-                isUnlocked ? '' : 'opacity-50'
+              className={`glass-card achievement-card transition-all duration-300 ${
+                isUnlocked ? 'achievement-card-unlocked' : 'achievement-card-locked'
               }`}
               style={isUnlocked ? {
                 borderColor: 'rgba(245, 158, 11, 0.3)',
                 boxShadow: '0 0 20px rgba(245, 158, 11, 0.1)',
               } : {}}
             >
-              <div className="text-3xl mb-2">
-                {isUnlocked ? a.icon : '🔒'}
+              <div className="achievement-icon">
+                {isUnlocked ? <span>{a.icon}</span> : <Lock size={20} />}
               </div>
-              <p className="font-semibold text-sm mb-0.5">
-                {a.name}
-              </p>
-              <p className="text-[11px] leading-tight"
-                style={{ color: 'var(--text-muted)' }}>
-                {a.description}
-              </p>
+              <div className="min-w-0">
+                <p className="font-semibold text-sm mb-0.5">{a.name}</p>
+                <p className="text-[11px] leading-tight" style={{ color: 'var(--text-muted)' }}>
+                  {a.description}
+                </p>
+              </div>
               {isUnlocked && (
-                <div className="mt-2 flex items-center justify-center gap-1">
+                <div className="achievement-state">
                   <Sparkles size={10} className="text-amber-400" />
                   <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wide">
-                    Unlocked
+                    Done
                   </span>
                 </div>
               )}

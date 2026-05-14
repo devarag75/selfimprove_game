@@ -33,8 +33,8 @@ export default function Stats() {
   };
 
   return (
-    <div className="pb-6 space-y-4 stagger-children">
-      <h1 className="text-xl font-bold flex items-center gap-2">
+    <div className="page-stack stagger-children">
+      <h1 className="page-title">
         <BarChart3 size={22} className="text-cyan-400" />
         Statistics
       </h1>
@@ -47,9 +47,9 @@ export default function Stats() {
           { icon: <Target size={20} className="text-cyan-400" />, label: 'Quests Done', value: stats.totalCompleted },
           { icon: <Calendar size={20} className="text-blue-400" />, label: 'Days Active', value: stats.daysActive },
         ].map((s, i) => (
-          <div key={i} className="glass-card p-4 text-center">
+          <div key={i} className="glass-card stat-card">
             <div className="flex justify-center mb-2">{s.icon}</div>
-            <p className="font-game text-2xl font-bold">{s.value}</p>
+            <p className="text-2xl font-bold">{s.value}</p>
             <p className="text-[10px] uppercase tracking-widest mt-1" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
           </div>
         ))}
@@ -63,11 +63,11 @@ export default function Stats() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center">
-            <p className="font-game text-3xl font-bold text-amber-400">{streakInfo.current}</p>
+            <p className="text-3xl font-bold text-amber-400">{streakInfo.current}</p>
             <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>Current</p>
           </div>
           <div className="text-center">
-            <p className="font-game text-3xl font-bold text-cyan-400">{streakInfo.best}</p>
+            <p className="text-3xl font-bold text-cyan-400">{streakInfo.best}</p>
             <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>Best</p>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function Stats() {
           <TrendingUp size={20} className="text-green-400" />
           <h2 className="font-bold">Last 7 Days</h2>
         </div>
-        <div className="flex items-end justify-between gap-2" style={{ height: '120px' }}>
+        <div className="flex items-end justify-between gap-2" style={{ height: '96px' }}>
           {last7Days.map((day, i) => {
             const hPct = day.xp > 0 ? Math.max(15, (day.xp / maxXpDay) * 100) : 5;
             const isToday = day.dateStr === getTodayStr();
@@ -101,7 +101,7 @@ export default function Stats() {
                 <span className="text-[10px] font-bold" style={{ color: day.xp > 0 ? '#a855f7' : 'var(--text-muted)' }}>
                   {day.xp > 0 ? day.xp : ''}
                 </span>
-                <div className="w-full flex justify-center" style={{ height: '80px' }}>
+                <div className="w-full flex justify-center" style={{ height: '62px' }}>
                   <div className="w-full max-w-[28px] rounded-t-md transition-all duration-500"
                     style={{
                       height: `${hPct}%`, alignSelf: 'flex-end',
@@ -174,7 +174,7 @@ export default function Stats() {
         <div className="glass-card p-8 text-center">
           <BarChart3 size={40} className="mx-auto mb-3 text-cyan-400 opacity-40" />
           <p className="font-medium mb-1">No stats yet</p>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Complete some quests to see your progress!</p>
+          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Complete some quests to see your progress.</p>
         </div>
       )}
     </div>

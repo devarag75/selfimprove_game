@@ -59,11 +59,11 @@ export default function Quests() {
   };
 
   return (
-    <div className="pb-6 space-y-4">
+    <div className="page-stack">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="page-title">
             <Swords size={22} className="text-purple-400" />
             Quest Board
           </h1>
@@ -101,7 +101,7 @@ export default function Quests() {
             return (
             <div
               key={quest.id}
-              className={`glass-card-interactive p-4 ${isCompleted ? 'opacity-75' : ''}`}
+              className={`glass-card-interactive quest-manage-card ${isCompleted ? 'opacity-75' : ''}`}
               style={isCompleted ? { borderColor: 'rgba(16, 185, 129, 0.3)' } : {}}
             >
               <div className="flex items-center gap-3">
@@ -144,10 +144,9 @@ export default function Quests() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => handleEdit(quest)}
-                    className="p-2 rounded-lg transition-colors duration-200"
+                    className="icon-button"
                     style={{ color: 'var(--text-secondary)' }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(168, 85, 247, 0.1)'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                    aria-label={`Edit ${quest.name}`}
                   >
                     <Pencil size={16} />
                   </button>
@@ -161,8 +160,9 @@ export default function Quests() {
                       </button>
                       <button
                         onClick={() => setDeleteConfirm(null)}
-                        className="p-2 rounded-lg transition-colors"
+                        className="icon-button"
                         style={{ color: 'var(--text-secondary)' }}
+                        aria-label="Cancel delete"
                       >
                         <X size={16} />
                       </button>
@@ -170,10 +170,9 @@ export default function Quests() {
                   ) : (
                     <button
                       onClick={() => setDeleteConfirm(quest.id)}
-                      className="p-2 rounded-lg transition-colors duration-200"
+                      className="icon-button"
                       style={{ color: 'var(--text-secondary)' }}
-                      onMouseEnter={e => e.currentTarget.style.background = 'rgba(244, 63, 94, 0.1)'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                      aria-label={`Delete ${quest.name}`}
                     >
                       <Trash2 size={16} />
                     </button>

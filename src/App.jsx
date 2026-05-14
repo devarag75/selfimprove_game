@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { HashRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom';
 import { GameProvider, useGame } from './context/GameContext';
 import { getRandomLevelUpMessage } from './utils/gameEngine';
@@ -5,11 +6,15 @@ import Dashboard from './pages/Dashboard';
 import Quests from './pages/Quests';
 import Stats from './pages/Stats';
 import Achievements from './pages/Achievements';
-import { Home, Swords, BarChart3, Trophy, Zap, X, Sparkles } from 'lucide-react';
+import { Home, Swords, BarChart3, Trophy, Zap, Sparkles } from 'lucide-react';
 
 function AppLayout() {
   const location = useLocation();
   const { showLevelUp, newLevel, dismissLevelUp, toast, newAchievement } = useGame();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+  }, [location.pathname]);
 
   const navItems = [
     { to: '/', icon: Home, label: 'Home' },
@@ -24,17 +29,20 @@ function AppLayout() {
       <div className="bg-particles" />
 
       {/* Main content */}
-      <main className="app-shell relative z-10 px-4 pt-6 pb-24">
+      <main className="app-shell relative z-10">
         {/* App Header */}
-        <header className="flex items-center justify-between mb-6">
-          <h1 className="font-game text-lg font-bold"
-            style={{
-              background: 'linear-gradient(135deg, #a855f7, #3b82f6)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-            LIFE RPG
-          </h1>
+        <header className="app-header">
+          <div>
+            <h1 className="font-game text-lg font-bold"
+              style={{
+                background: 'linear-gradient(135deg, #a855f7, #3b82f6)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}>
+              LIFE RPG
+            </h1>
+            <p className="app-subtitle">Build your real-life character</p>
+          </div>
           <div className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold"
             style={{ background: 'rgba(168,85,247,0.12)', color: '#a855f7' }}>
             <Zap size={12} />
